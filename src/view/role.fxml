@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane fx:controller="controller.RoleViewController"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+    <padding><Insets top="25" right="25" bottom="10" left="25"/></padding>
+
+    <Label text="角色选择:"
+           GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+
+    <VBox GridPane.columnIndex="0" GridPane.rowIndex="2">
+        <fx:define>
+            <ToggleGroup fx:id="myToggleGroup" />
+        </fx:define>
+        <children>
+            <RadioButton text="hero" toggleGroup="$myToggleGroup" userData="hero" />
+            <RadioButton text="soldier" toggleGroup="$myToggleGroup" userData="soldier"/>
+        </children>
+     </VBox>
+
+
+    <HBox spacing="10" alignment="bottom_right"
+          GridPane.columnIndex="0" GridPane.rowIndex="6">
+        <Button text="确定" onAction="#choiceRole"/>
+    </HBox>
+
+</GridPane>
+
+
+

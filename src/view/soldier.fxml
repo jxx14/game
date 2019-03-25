@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import javafx.scene.text.Text?>
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="400.0"
+          fx:controller="controller.SoldierController"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+    <padding><Insets top="25" right="25" bottom="10" left="25"/></padding>
+
+    <Label fx:id="attributes" text="敌我属性"
+           GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <Text fx:id="actionTarget" GridPane.columnIndex="1" GridPane.rowIndex="1" text="我方属性：血量100;等级1;攻击力100;防御100"/>
+    <Text fx:id="actionTargetEnemy" GridPane.columnIndex="1" GridPane.rowIndex="2" text="罪犯：攻击10；血量10"/>
+
+    <Label text="武器选择:"
+           GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+    <ComboBox fx:id="weaponComboBox" GridPane.columnIndex="1" GridPane.rowIndex="3">
+        <items>
+            <FXCollections fx:factory ="observableArrayList">
+                <String fx:value ="不使用枪"/>
+                <String fx:value ="枪"/>
+                <String fx:value ="装配二倍镜"/>
+                <String fx:value ="装配四倍镜"/>
+            </FXCollections>
+        </items>
+        <value>
+            <String fx:value ="不使用枪"/>
+        </value>
+    </ComboBox>
+
+
+    <Label text="装备选择:"
+           GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+    <ComboBox fx:id="equipmentComboBox" GridPane.columnIndex="1" GridPane.rowIndex="5">
+        <items>
+            <FXCollections fx:factory ="observableArrayList">
+                <String fx:value ="不选择装备"/>
+                <String fx:value ="头盔"/>
+                <String fx:value ="盔甲"/>
+                <String fx:value ="组合"/>
+            </FXCollections>
+        </items>
+        <value>
+            <String fx:value ="不选择装备"/>
+        </value>
+    </ComboBox>
+
+
+    <Label text="技能选择:"
+           GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+    <ComboBox fx:id="skillComboBox" GridPane.columnIndex="1" GridPane.rowIndex="7">
+        <items>
+            <FXCollections fx:factory ="observableArrayList">
+                <String fx:value ="不选择技能"/>
+                <String fx:value ="风"/>
+                <String fx:value ="火"/>
+                <String fx:value ="组合"/>
+            </FXCollections>
+        </items>
+        <value>
+            <String fx:value ="不选择技能"/>
+        </value>
+    </ComboBox>
+
+
+    <HBox spacing="10" alignment="bottom_right"
+          GridPane.columnIndex="1" GridPane.rowIndex="9">
+        <Button text="确定" onAction="#fight"/>
+    </HBox>
+
+</GridPane>
+
+
+

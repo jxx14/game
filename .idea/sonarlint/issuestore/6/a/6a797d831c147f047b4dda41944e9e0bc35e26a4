@@ -1,6 +1,6 @@
 
+}squid:S00116"`Rename this field "MINIMUM_WINDOW_HEIGHT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(®ðŽžûÿÿÿÿ
 =squid:S1170"!Make this final field static too.(˜ªÍìúÿÿÿÿ
+|squid:S00116"_Rename this field "MINIMUM_WINDOW_WIDTH" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜ªÍìúÿÿÿÿ
 =squid:S1170"!Make this final field static too.(®ðŽžûÿÿÿÿ
 ^squid:S00112C"FDefine and throw a dedicated exception instead of using a generic one.(þžÿÄ
-|squid:S00116"_Rename this field "MINIMUM_WINDOW_WIDTH" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜ªÍìúÿÿÿÿ
-}squid:S00116"`Rename this field "MINIMUM_WINDOW_HEIGHT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(®ðŽžûÿÿÿÿ

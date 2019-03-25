@@ -1,32 +1,17 @@
 package model.role;
 
-
-import model.equipment.Equipment;
-import model.skill.Skill;
-import model.weapon.IWeapon;
-
 public class Hero implements IRole {
 
     private int life;
     private int level;
+    private int hurt;
+    private int Shield;
 
-    private IWeapon iWeapon;
-    private Skill skill;
-    private Equipment equipment;
-
-    @Override
-    public int calculateAttack() {
-        return 100;
-    }
-
-    @Override
-    public String description() {
-        return "骑士";
-    }
-
-    @Override
-    public int calculateShield() {
-        return 100;
+    public Hero(int life, int level, int hurt, int shield) {
+        this.life = life;
+        this.level = level;
+        this.hurt = hurt;
+        Shield = shield;
     }
 
     @Override
@@ -44,8 +29,32 @@ public class Hero implements IRole {
         return level;
     }
 
+    @Override
     public void setLevel(int level) {
         this.level = level;
     }
 
+    @Override
+    public String getName() {
+        return "hero";
+    }
+
+    @Override
+    public int getHurt() {
+        return hurt;
+    }
+
+    @Override
+    public void setHurt(int hurt) {
+        this.hurt = hurt;
+    }
+
+    @Override
+    public int getShield() {
+        return Shield;
+    }
+
+    public void setShield(int shield) {
+        Shield = shield;
+    }
 }

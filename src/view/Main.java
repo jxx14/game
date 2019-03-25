@@ -1,9 +1,5 @@
 package view;
 
-import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import controller.HeroController;
 import controller.RoleViewController;
 import controller.SoldierController;
@@ -14,6 +10,10 @@ import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Main extends Application {
     private Stage stage;

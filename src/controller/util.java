@@ -6,32 +6,42 @@ import model.role.IRole;
 import model.role.RoleFactory;
 import model.skill.Skill;
 import model.weapon.IWeapon;
+import model.weapon.gun.DoubleMirrorDecorator;
+import model.weapon.gun.Gun;
+import model.weapon.sword.BlueSwordDecorator;
+import model.weapon.sword.RedSwardDecorator;
+import model.weapon.sword.Sword;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
-public class FightController {
+public class util {
     private String equipments[] ={"不选择装备","头盔","盔甲","组合"};
     int count = 0;
 
-    //创建Enemy
-    public Enemy creatEnemy(String name){
-        Random random = new Random();
-        int enemyHurt = random.nextInt(100) ;
-        int enemyLife = random.nextInt(100) ;
-        return new Enemy(name,enemyHurt,enemyLife);
+    public Skill getSkill(List<String> skillNameList){
+        Skill skill=new Skill(skillNameList.get(0),100);
+        if (skillNameList.size()>1){
+            for (int i = 1; i <skillNameList.size() ; i++) {
+                Skill skill1=new Skill(skillNameList.get(i),100);
+                skill.add(skill1);
+            }
+        }
+        return skill;
     }
 
 
-//    //已知用户角色类型创建角色，在选择角色类型后初始化角色
-//    public IRole creatRole(String roleKind){
-//        RoleFactory roleFactory = new RoleFactory();
-//        return roleFactory.getRole(roleKind);
-//    }
+    public Equipment getEquipment(int equipmentIndex){
+        List<String> equipmentList =new ArrayList<>();
+        if (equipmentIndex==3){
+            equipmentList.add(equipments[1]);
+            equipmentList.add(equipments[2]);
+        }else {
+            equipmentList.add(equipments[equipmentIndex]);
+        }
+        return getEquipment(equipmentList);
+    }
 
-    // 得到装备
     public Equipment getEquipment(List<String> equipmentList){
         Equipment equipment=new Equipment(equipmentList.get(0));
         if (equipmentList.size()>1){
@@ -43,15 +53,48 @@ public class FightController {
         return equipment;
     }
 
-    public Skill getSkill(List<String> skillList){
-        Skill skill=new Skill(skillList.get(0) );
-        if (skillList.size()>1){
-            for (int i = 1; i <skillList.size() ; i++) {
-                Skill skill1=new Skill(skillList.get(i));
-                skill.add(skill1);
-            }
+
+    //    private String weapons[] ={"不使用剑","剑","装配1个红宝石配件","装配2个红宝石配件",
+//            "装配1个蓝宝石配件","装配2个蓝宝石配件","装配蓝宝石和红宝石各一个"};
+    public IWeapon getSword(int weaponIndex) {
+        switch (weaponIndex) {
+            case 0:
+                return new Sword();
+            case 1:
+                return new RedSwardDecorator(new Sword());
+            case 2:
+                return new RedSwardDecorator(new RedSwardDecorator(new Sword()));
+            case 3:
+                return new BlueSwordDecorator(new Sword());
+            case 4:
+                return new BlueSwordDecorator(new BlueSwordDecorator(new Sword()));
+            case 5:
+                return new BlueSwordDecorator(new RedSwardDecorator(new Sword()));
         }
-        return skill;
+        return null;
+    }
+
+
+    //    private String weapons[] ={"不使用枪","枪","装配二倍镜","装配四倍镜"};
+    public IWeapon getGun(int weaponIndex){
+        switch (weaponIndex) {
+            case 0:
+                return new Gun();
+            case 1:
+                return new DoubleMirrorDecorator(new Gun());
+            case 2:
+                return new DoubleMirrorDecorator(new Gun());
+        }
+        return null;
+    }
+
+
+    //创建Enemy
+    public Enemy createEnemy(String name){
+        Random random = new Random();
+        int enemyHurt = random.nextInt(1000) ;
+        int enemyLife = random.nextInt(1000) ;
+        return new Enemy(name,enemyHurt,enemyLife);
     }
 
     //计算防御值
@@ -92,7 +135,7 @@ public class FightController {
         int totalHurt = calculateHurt(skill,role,weapon);
         int totalProtect = calculateProtect(equipment,role);
         //保证自己的安全
-        if (totalProtect>enemy.getHurt()){
+        if (totalProtect+role.getLife()>enemy.getHurt()){
             //如果敌人死掉获得敌人的生命力
             role.setLife(role.getLife()+enemy.getLife());
             if (totalHurt<enemy.getLife()){
@@ -109,21 +152,10 @@ public class FightController {
                 }
             }
         }else {
-            //自己失败,重新再来
-            RoleFactory factory =new RoleFactory();
-            role =factory.getRole(role.getName());;
+            //失败,重新再来
+            role =new RoleFactory().getRole(role.getName());
         }
 
     }
 
-    public Equipment getEquipment(int equipmentIndex){
-        List<String> equipmentList =new ArrayList<>();
-        if (equipmentIndex==3){
-            equipmentList.add(equipments[1]);
-            equipmentList.add(equipments[2]);
-        }else {
-            equipmentList.add(equipments[equipmentIndex]);
-        }
-        return getEquipment(equipmentList);
-    }
 }

@@ -1,5 +1,7 @@
 package model.role;
 
+import model.skill.Skill;
+
 public interface IRole {
 
     public int getHurt();
@@ -16,4 +18,5 @@ public interface IRole {
 
     public String getName();
 
+    public Skill getSkill(String skillName);
 }

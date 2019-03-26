@@ -10,8 +10,9 @@ public class Skill {
     private List<Skill> skills;
 
     //构造函数
-    public Skill(String name) {
+    public Skill(String name,int hurt) {
         this.name = name;
+        this.hurt =hurt;
         skills = new ArrayList<Skill>();
     }
 

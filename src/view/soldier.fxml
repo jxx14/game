@@ -38,14 +38,14 @@
     <ComboBox fx:id="equipmentComboBox" GridPane.columnIndex="1" GridPane.rowIndex="5">
         <items>
             <FXCollections fx:factory ="observableArrayList">
-                <String fx:value ="不选择装备"/>
-                <String fx:value ="头盔"/>
-                <String fx:value ="盔甲"/>
-                <String fx:value ="组合"/>
+                <String fx:value ="不选择装备防御值0"/>
+                <String fx:value ="头盔,防御值100"/>
+                <String fx:value ="盔甲防御值200"/>
+                <String fx:value ="头盔和盔甲组合，防御值300"/>
             </FXCollections>
         </items>
         <value>
-            <String fx:value ="不选择装备"/>
+            <String fx:value ="不选择装备防御值0"/>
         </value>
     </ComboBox>
 
@@ -55,17 +55,16 @@
     <ComboBox fx:id="skillComboBox" GridPane.columnIndex="1" GridPane.rowIndex="7">
         <items>
             <FXCollections fx:factory ="observableArrayList">
-                <String fx:value ="不选择技能"/>
-                <String fx:value ="风"/>
-                <String fx:value ="火"/>
-                <String fx:value ="组合"/>
+                <String fx:value ="不选择技能伤害0"/>
+                <String fx:value ="一级风技能伤害50"/>
+                <String fx:value ="一级火技能伤害50"/>
+                <String fx:value ="一级风技能，一级火技能伤害90"/>
             </FXCollections>
         </items>
         <value>
-            <String fx:value ="不选择技能"/>
+            <String fx:value ="不选择技能伤害0"/>
         </value>
     </ComboBox>
-
 
     <HBox spacing="10" alignment="bottom_right"
           GridPane.columnIndex="1" GridPane.rowIndex="9">

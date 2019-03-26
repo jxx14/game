@@ -11,13 +11,9 @@ import model.role.IRole;
 import model.role.RoleFactory;
 import model.skill.Skill;
 import model.weapon.IWeapon;
-import model.weapon.gun.DoubleMirrorDecorator;
-import model.weapon.gun.Gun;
 import view.Main;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class SoldierController implements Initializable {
@@ -27,7 +23,7 @@ public class SoldierController implements Initializable {
         this.application = application;
     }
 
-    private FightController fightController =new FightController();
+    private util util =new util();
     @FXML
     private ComboBox skillComboBox;
     @FXML
@@ -39,15 +35,13 @@ public class SoldierController implements Initializable {
     @FXML
     private Text actionTargetEnemy;
 
-    private String skills[] ={"不选择技能","风","火","组合"};
-    private String weapons[] ={"不使用枪","枪","装配二倍镜","装配四倍镜"};
-    private String equipments[] ={"不选择装备","装备1","装备2","组合"};
+    //    private String equipments[] ={"不选择装备","装备1","装备2","组合"};
     private Equipment equipment;
     private IWeapon weapon;
     private Skill skill;
     private int count;
-    RoleFactory factory =new RoleFactory();
-    private IRole role =factory.getRole("soldier");
+    private int temp;
+    private IRole role =new RoleFactory().getRole("soldier");
 
     @FXML
     public void fight(ActionEvent event) {
@@ -58,47 +52,61 @@ public class SoldierController implements Initializable {
         if (count==0){
             enemy=new Enemy("罪犯",10,10);
         }else {
-            enemy=fightController.creatEnemy("罪犯");
+            enemy= util.createEnemy("罪犯");
         }
 
-        actionTarget.setText(fightController.getRoleInfo(role));
-        actionTargetEnemy.setText(fightController.getEnemyInfo(enemy));
+        actionTarget.setText(util.getRoleInfo(role));
+        actionTargetEnemy.setText(util.getEnemyInfo(enemy));
 
         int weaponIndex =weaponComboBox.getSelectionModel().getSelectedIndex();
         if(weaponIndex!=0){
-            weapon = getWeapon(weapons[weaponIndex]);
+            weapon = util.getGun(weaponIndex);
         }
         int equipmentIndex = equipmentComboBox.getSelectionModel().getSelectedIndex();
         if (equipmentIndex!=0){
-            equipment = fightController.getEquipment(equipmentIndex);
+            equipment = util.getEquipment(equipmentIndex);
         }
 
         int skillIndex=skillComboBox.getSelectionModel().getSelectedIndex();
         if (skillIndex!=0){
-            skill = getSkill(skillIndex);
+            skill =getSkill(skillIndex);
         }
-        fightController.getResult(skill,weapon,role,enemy,equipment);
+        util.getResult(skill,weapon,role,enemy,equipment);
+
+        if (role.getLevel()==2){
+            temp= temp+1;
+            if (temp==1){
+                skillComboBox.getItems().addAll(
+                        "二级风技能伤害100",
+                        "二级火技能伤害90",
+                        "一级风技能，二级火技能伤害140",
+                        "二级风技能，一级火技能伤害150",
+                        "二级风技能，二级火技能伤害190"
+                );
+            }
+        }
     }
 
     public Skill getSkill(int skillIndex) {
-        List<String> skillList =new ArrayList<>();
-        if(skillIndex==3){
-            skillList.add(skills[1]);
-            skillList.add(skills[2]);
-        }else {
-            skillList.add(skills[skillIndex]);
+        switch (skillIndex) {
+            case 1:
+                return role.getSkill("windOne");
+            case 2:
+                return role.getSkill("fireOne");
+            case 3:
+                return role.getSkill("windOneAndFireOne");
+            case 4:
+                return role.getSkill("windTwo");
+            case 5:
+                return role.getSkill("fireTwo");
+            case 6:
+                return role.getSkill("windOneAndFireTwo");
+            case 7:
+                return role.getSkill("windTwoAndFireTwo");
+            case 8:
+                return role.getSkill("WindTwoAndFireTwo");
         }
-        return fightController.getSkill(skillList);
-    }
-
-        public IWeapon getWeapon(String weaponName){
-        if (weaponName.equalsIgnoreCase("枪")){
-            return new Gun();
-        }else if (weaponName.equalsIgnoreCase("装配二倍镜")){
-            return new DoubleMirrorDecorator(new Gun());
-        }else {
-            return new DoubleMirrorDecorator(new Gun());
-        }
+        return null;
     }
 
     @Override

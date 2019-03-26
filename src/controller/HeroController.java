@@ -11,14 +11,9 @@ import model.role.IRole;
 import model.role.RoleFactory;
 import model.skill.Skill;
 import model.weapon.IWeapon;
-import model.weapon.sword.BlueSwordDecorator;
-import model.weapon.sword.RedSwardDecorator;
-import model.weapon.sword.Sword;
 import view.Main;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 
@@ -27,6 +22,7 @@ public class HeroController implements Initializable {
     private IWeapon weapon;
     private Skill skill;
     private int count;
+    private int temp;
     @FXML
     private ComboBox skillComboBox;
     @FXML
@@ -38,84 +34,81 @@ public class HeroController implements Initializable {
     @FXML
     private Text actionTargetEnemy;
     private Main application;
-    RoleFactory factory =new RoleFactory();
-
-    private IRole role =factory.getRole("soldier");
+    private IRole role =new RoleFactory().getRole("soldier");
     public void setApp(Main application){
         this.application = application;
     }
 
 //    Map<String, IRole> data = RoleViewController.data;// 调用上一个controller
-    private FightController fightController =new FightController();
-
-    private String skills[] ={"不选择技能","风","土","组合"};
-    private String weapons[] ={"不使用剑","剑","装配1个红宝石配件","装配2个红宝石配件",
-            "装配1个蓝宝石配件","装配2个蓝宝石配件","装配蓝宝石和红宝石各一个"};
+    private util util =new util();
 
     @FXML
     public void fight(ActionEvent event) {
         count = count+1;
-        //每一次随机初始化一个敌人
         Enemy enemy;
         if (count==0){
             enemy=new Enemy("罪犯",10,10);
         }else {
-            enemy=fightController.creatEnemy("罪犯");
+            enemy= util.createEnemy("罪犯");
         }
 
-        actionTarget.setText(fightController.getRoleInfo(role));
-        actionTargetEnemy.setText(fightController.getEnemyInfo(enemy));
-
-        actionTarget.setText(fightController.getRoleInfo(role));
-        actionTargetEnemy.setText(fightController.getEnemyInfo(enemy));
+        actionTarget.setText(util.getRoleInfo(role));
+        actionTargetEnemy.setText(util.getEnemyInfo(enemy));
 
         int weaponIndex =weaponComboBox.getSelectionModel().getSelectedIndex();
         if(weaponIndex!=0){
-            weapon = getWeapon(weapons[weaponIndex]);
+            weapon = util.getSword(weaponIndex);
         }
         int equipmentIndex = equipmentComboBox.getSelectionModel().getSelectedIndex();
         if (equipmentIndex!=0){
-            equipment = fightController.getEquipment(equipmentIndex);
+            equipment = util.getEquipment(equipmentIndex);
         }
 
         int skillIndex=skillComboBox.getSelectionModel().getSelectedIndex();
         if (skillIndex!=0){
             skill = getSkill(skillIndex);
         }
-        fightController.getResult(skill,weapon,role,enemy,equipment);
+        util.getResult(skill,weapon,role,enemy,equipment);
 
-    }
-
-
-    public Skill getSkill(int skillIndex) {
-        List<String> skillList =new ArrayList<>();
-        if(skillIndex==3){
-            skillList.add(skills[1]);
-            skillList.add(skills[2]);
-        }else {
-            skillList.add(skills[skillIndex]);
+        if (role.getLevel()==2){
+            temp= temp+1;
+            if (temp==1){
+                skillComboBox.getItems().addAll(
+                        "二级风技能伤害100",
+                        "二级土技能伤害100",
+                        "一级风技能，二级土技能伤害150",
+                        "二级风技能，一级土技能伤害150",
+                        "二级风技能，二级土技能伤害200"
+                );
+            }
         }
-        return fightController.getSkill(skillList);
     }
 
-    public IWeapon getWeapon(String weaponName) {
-        switch (weaponName) {
-            case "剑":
-                return new Sword();
-            case "装配1个红宝石配件":
-                return new RedSwardDecorator(new Sword());
-            case "装配2个红宝石配件":
-                return new RedSwardDecorator(new RedSwardDecorator(new Sword()));
-            case "装配1个蓝宝石配件":
-                return new BlueSwordDecorator(new Sword());
-            case "装配2个蓝宝石配件":
-                return new BlueSwordDecorator(new BlueSwordDecorator(new Sword()));
-            case "装配蓝宝石和红宝石各一个":
-                return new BlueSwordDecorator(new RedSwardDecorator(new Sword()));
-
+    //   "不选择技能0","一级风技能50","一级火技能火50","一级风技能，一级火·技能组合95"};
+    //  "不选择技能伤害0","一级风技能伤害50","一级土技能伤害50","一级风技能，一级土技能伤害90"};
+    public Skill getSkill(int skillIndex) {
+        switch (skillIndex) {
+            case 1:
+                return role.getSkill("windOne");
+            case 2:
+                return role.getSkill("dirtOne");
+            case 3:
+                return role.getSkill("windOneAndDirtOne");
+            case 4:
+                return role.getSkill("windTwo");
+            case 5:
+                return role.getSkill("dirtTwo");
+            case 6:
+                return role.getSkill("windOneAndDirtTwo");
+            case 7:
+                return role.getSkill("windTwoAndDirtOne");
+            case 8:
+                return role.getSkill("WindTwoAndDirtTwo");
         }
         return null;
     }
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
